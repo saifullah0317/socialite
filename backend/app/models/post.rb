@@ -8,7 +8,7 @@ class Post < ApplicationRecord
 
   def description_or_attachment_present
     if description.blank? && !image.attached? && !video.attached?
-      errors.add(:base, "Either and image or video must be attached.")
+      errors.add(:base, "Either an image or video must be attached.")
     end
   end
 end
