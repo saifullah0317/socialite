@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get :logged_in, to: "sessions#logged_in"
   resources :registrations, only: [:create]
   resources :posts, only: [:create, :show]
+  resources :friendships, only: [:create, :destroy]
 end
