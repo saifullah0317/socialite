@@ -19,7 +19,7 @@ export default function Login() {
             redirect: "follow"
         };
 
-        fetch("http://localhost:3000/sessions", requestOptions)
+        fetch("http://localhost:8000/sessions", requestOptions)
             .then(async (response) => await response.json())
             .then((result) => {
                 if(result.user){

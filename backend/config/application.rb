@@ -1,5 +1,5 @@
 require_relative "boot"
-
+require_relative "../lib/middlewares/check_request.rb"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -23,5 +23,6 @@ module Backend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.middleware.insert_before 0, CheckRequest
   end
 end

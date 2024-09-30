@@ -1,30 +1,35 @@
 class PostsController < ApplicationController
+    # include CurrentUserConcern
     def create
-        Rails.logger.debug("Incoming params: #{params.inspect}")
-        # post=Post.create!(description: params["description"], image: params["image"]);
-        post=Post.new(post_params)
-        if post.save
+        @query_params=post_params
+        # @query_params['user_id']=@current_user.id
+        # puts "current_user: #{@current_user}"
+        @query_params['user_id']='5'
+        puts "query_params: #{@query_params}"
+        begin
+            @created_post=Post.create(@query_params)
             render json: {
                 status: :created,
-                post: post
+                post: @created_post
             }
-        else
+        rescue => e
+            puts "error while creating post: #{e}"
             render json: {
+                message: e.message,
                 status: 500
             }
         end
     end
 
-    def show
-        @post=Post.find_by(id: params[:id])
-        if @post
+    def index
+    #     puts "current_user: #{@current_user}"
+    #     @posts=Post.where(user_id: @current_user.id)
+        @posts=Post.where(user_id: '5')
+        puts "posts of current_user: #{@posts}"
+        if @posts
             render json: {
                 status: :ok,
-                description: @post.description,
-                image: url_for(@post.image),
-                video: url_for(@post.video)
-                # image: @post.image.attached? ? url_for(@post.image) : nil,
-                # video: @post.video.attached? ? url_for(@post.video) : nil
+                posts: @posts
             }
         else
             render json: {
@@ -35,8 +40,7 @@ class PostsController < ApplicationController
 
     private
     def post_params
-        # params.require(:post).permit(:description, :image, :video, :user_id)
-        params.permit(:description, :image, :video, :user_id)
+        params.require(:post).permit(:description, images: [])
     end
 
 end

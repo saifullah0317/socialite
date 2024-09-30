@@ -20,7 +20,7 @@ export default function Signup() {
             redirect: "follow"
         };
 
-        fetch("http://localhost:3000/registrations", requestOptions)
+        fetch("http://localhost:8000/registrations", requestOptions)
             .then(async (response) => await response.json())
             .then((result) => {
                 if(result.user){
